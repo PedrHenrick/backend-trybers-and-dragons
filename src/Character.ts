@@ -13,7 +13,7 @@ export default class Character implements Fighter {
   private _defense: number;
   private _dexterity: number;
   private _energy: Energy;
-  
+
   constructor(private _name: string) {
     this._dexterity = getRandomInt(1, 10);
     this._race = new Elf(_name, this._dexterity);
@@ -68,6 +68,23 @@ export default class Character implements Fighter {
   }
 
   special(enemy: Fighter): void {
-    enemy.receiveDamage((this._strength * this._defense) * getRandomInt(1, 10));
+    switch (getRandomInt(1, 4)) {
+      case 1:
+        console.log('Roubo de vida com dano');
+        enemy.receiveDamage((this._strength * 3));
+        this._lifePoints += (this._strength * 3);
+        break;
+      case 2:
+        console.log('Subir de nível');
+        this.levelUp();
+        break;
+      case 3:
+        console.log('Ataque final');
+        enemy.receiveDamage((this._strength * 999));
+        break;
+      default:
+        console.log('Você contra golpeou? IMPOSSIVEL!');
+        this._lifePoints -= (this._strength * 3);
+    }
   }
 }
